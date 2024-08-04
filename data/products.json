@@ -1,9 +1,1 @@
-[
-  {
-    "id": "0.15605131240262926",
-    "title": "book1",
-    "imageUrl": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg",
-    "description": "first book with 50$",
-    "price": "50"
-  }
-]
+[{"id":"0.15605131240262926","title":"first book","imageUrl":"https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg","description":"first book with 50$","price":"59"}]
