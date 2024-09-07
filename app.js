@@ -10,21 +10,45 @@ app.set("views", "views");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
-const Product = require("./models/product");
 const sequelize = require("./util/database");
+const Product = require("./models/product");
+const User = require("./models/user");
 const { log } = require("console");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use((req, res, nex) => {
+  User.findByPk(1)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => console.log(err));
+});
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
 app.use(errorController.get404);
 
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(Product);
+
 sequelize
+  //.sync({ force: true })
   .sync()
   .then((result) => {
+    return User.findByPk(1);
+  })
+  .then((user) => {
+    if (!user) {
+      return User.create({ userName: "ali", email: "test@info.com" });
+    }
+    return user;
+  })
+  .then((user) => {
+    //console.log(user);
     app.listen(3000);
   })
   .catch((err) => {
